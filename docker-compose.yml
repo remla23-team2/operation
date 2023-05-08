@@ -1,0 +1,7 @@
+services:
+  model-training:
+    image: ghcr.io/remla23-team2/model-training:latest
+  model-service:
+    image: ghcr.io/remla23-team2/model-service:latest
+  app:
+    image: ghcr.io/remla23-team2/app:latest
