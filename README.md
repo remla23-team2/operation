@@ -9,20 +9,6 @@ Before using this `docker-compose` file, you'll need to have the following softw
 - Docker Engine
 - Docker Compose
 
-## Getting Started
-
-To get started, simply clone this repository to your local machine:
-
-```sh
-$ git clone https://github.com/your-username/your-repo.git
-```
-
-Once you've cloned the repository, navigate to the project directory:
-
-```sh
-$ cd your-repo
-```
-
 ## Running the Application
 
 To launch the application using Docker Compose, simply run the following command:
