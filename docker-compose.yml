@@ -1,0 +1,9 @@
+services:
+  model-service:
+    image: ghcr.io/remla23-team2/model-service:latest
+  model-training:
+    image: ghcr.io/remla23-team2/model-training:latest
+  app:
+    image: ghcr.io/remla23-team2/app:latest
+    ports:
+      - 3000:3000
