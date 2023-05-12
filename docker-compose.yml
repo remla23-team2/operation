@@ -3,12 +3,14 @@ services:
     image: ghcr.io/remla23-team2/model-service:latest
     volumes:
       - shared-data:/root/data
+      - shared-code:/root/src
     ports:
       - 8080:8080
   model-training:
     image: ghcr.io/remla23-team2/model-training:latest
     volumes:
       - shared-data:/root/data
+      - shared-code:/root/src
   app:
     image: ghcr.io/remla23-team2/app:latest
     ports:
@@ -16,3 +18,4 @@ services:
 
 volumes:
   shared-data:
+  shared-code:
