@@ -1,20 +1,24 @@
 services:
   model-service:
-    image: ghcr.io/remla23-team2/model-service:latest
+    image: ghcr.io/remla23-team2/model-service:1.0.0
     volumes:
       - shared-data:/root/data
       - shared-code:/root/src
     ports:
       - 8080:8080
+    depends_on:
+      - model-training
   model-training:
-    image: ghcr.io/remla23-team2/model-training:latest
+    image: ghcr.io/remla23-team2/model-training:1.0.0
     volumes:
       - shared-data:/root/data
       - shared-code:/root/src
   app:
-    image: ghcr.io/remla23-team2/app:latest
+    image: ghcr.io/remla23-team2/app:1.1.0
     ports:
       - 3000:3000
+    depends_on:
+      - model-service
 
 volumes:
   shared-data:
