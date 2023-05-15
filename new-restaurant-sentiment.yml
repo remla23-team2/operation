@@ -13,23 +13,23 @@ spec:
         app: backend
     spec:
       containers:
-        # - name: model-service
-          # image: ghcr.io/remla23-team2/model-service:1.2.0
-          # ports:
-          #   - containerPort: 8080
-          # volumeMounts:
-          #   - name: shared-code
-          #     mountPath: /root/src
+        - name: model-service
+          image: ghcr.io/remla23-team2/model-service:1.2.0
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: shared-code
+              mountPath: /root/src
         - name: model-training
           image: busybox
-          # volumeMounts:
-          #   - name: shared-code
-          #     mountPath: /root/code
-          # command: ['/bin/bash']
-          # args: ['-c', 'cp -R /root/src /root/code']
-      # volumes:
-      #   - name: shared-code
-      #     emptyDir: {}
+          volumeMounts:
+            - name: shared-code
+              mountPath: /root/code
+          command: ['/bin/bash']
+          args: ['-c', 'cp -R /root/src /root/code']
+      volumes:
+        - name: shared-code
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
