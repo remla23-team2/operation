@@ -1,0 +1,137 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-service-depl
+spec:
+  selector:
+    matchLabels:
+      app: model-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: model-service
+    spec:
+      containers:
+        - name: model-service
+          image: ghcr.io/remla23-team2/model-service:1.2.0
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: shared-data
+              mountPath: /root/data
+            - name: shared-code
+              mountPath: /root/src
+      volumes:
+        - name: shared-data
+          emptyDir: {}
+        - name: shared-code
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-service-serv
+spec:
+  selector:
+    app: model-service
+  ports:
+    - port: 8080
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-training-depl
+spec:
+  selector:
+    matchLabels:
+      app: model-training
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: model-training
+    spec:
+      containers:
+        - name: model-training
+          image: ghcr.io/remla23-team2/model-training:1.2.0
+          ports:
+            - containerPort: 5000
+          volumeMounts:
+            - name: shared-data
+              mountPath: /root/data
+            - name: shared-code
+              mountPath: /root/src
+      volumes:
+        - name: shared-data
+          emptyDir: {}
+        - name: shared-code
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-training-serv
+spec:
+  selector:
+    app: model-training
+  ports:
+    - port: 5000
+      targetPort: 5000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-depl
+spec:
+  selector:
+    matchLabels:
+      app: app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/remla23-team2/app:1.2.0
+          ports:
+            - containerPort: 3000
+      env:
+          - name: MODEL_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: my-config
+                key: model.host
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-serv
+spec:
+  selector:
+    app: app
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+spec:
+  defaultBackend:
+    service:
+      name: app-serv
+      port:
+        number: 3000
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-config
+data:
+  model.host: "http://sms-model-serv:8080"
