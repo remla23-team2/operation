@@ -1,0 +1,67 @@
+# .github/workflows/deploy.yml
+
+name: Deploy k8s cluster to Google Cloud
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  PROJECT_ID: ${{secrets.GKE_PROJECT}}
+  GKE_CLUSTER: kubernetes-test
+  GKE_ZONE: europe-west2
+  DEPLOYMENT_NAME: remla23-deployment
+  IMAGE: github-actions-remla23-deployment
+  TAG: 1.0.0
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Google Cloud CLI
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@0.1.3
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+        with:
+          service_account_key: ${{secrets.GCP_SA_KEY}}
+          project_id: ${{secrets.GKE_PROJECT}}
+          
+      - name: Configure Docker
+        run: |-
+          gcloud --quiet auth configure-docker
+
+      - name: update gcloud auth plugin 
+        run: |-
+          echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+          curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+          sudo apt update
+          sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin kubectl
+          export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+      - name: Get GKE Credentials
+        run: |-
+          gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+
+      
+      - name: Build Docker Image
+        run: |-
+          docker build -t "gcr.io/$PROJECT_ID/$IMAGE:$TAG" .
+
+      - name: Publish Docker Image to GCR
+        run: |-
+          docker push "gcr.io/$PROJECT_ID/$IMAGE:$TAG"
+
+      - name: Use gcloud CLI
+        run: gcloud info
+
+      - name: Debug - List directory contents
+        run: ls 
+
+      - name: Deploy to Google Kubernetes Engine
+        run: |
+          kubectl apply -f restaurant-sentiment.yml
