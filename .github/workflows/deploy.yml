@@ -9,7 +9,7 @@ on:
 
 env:
   PROJECT_ID: ${{secrets.GKE_PROJECT}}
-  GKE_CLUSTER: kubernetes-test
+  GKE_CLUSTER: gourmet-groove
   GKE_ZONE: europe-west2
   DEPLOYMENT_NAME: remla23-deployment
   IMAGE: github-actions-remla23-deployment
