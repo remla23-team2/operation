@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: model-service
-        image: ghcr.io/remla23-team2/model-service:1.2.5
+        image: ghcr.io/remla23-team2/local-model-service:2.0.0
         ports:
         - containerPort: 8080
 ---
@@ -51,7 +51,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: ghcr.io/remla23-team2/app:1.2.16
+        image: ghcr.io/remla23-team2/app:3.0.0
         ports:
         - containerPort: 3000
         env:
@@ -60,6 +60,8 @@ spec:
               configMapKeyRef:
                 name: config
                 key: model.host
+          - name: PUBLIC_URL
+            value: "/app"
 ---
 apiVersion: v1
 kind: Service
@@ -79,15 +81,27 @@ kind: Ingress
 metadata:
   name: my-ingress
 spec:
-  defaultBackend:
-    service:
-      name: app-serv
-      port:
-        number: 3000
+  rules:
+  - http:
+      paths:
+      - path: "/app"
+        pathType: Prefix
+        backend:
+          service:
+            name: app-serv
+            port:
+              number: 3000
+      - path: "/"
+        pathType: Prefix
+        backend:
+          service:
+            name: model-service-serv
+            port:
+              number: 8080
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: config
 data:
-  model.host: "http://model-service-serv:8080"
+  model.host: "http://localhost/"
