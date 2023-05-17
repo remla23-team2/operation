@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: model-service
-        image: ghcr.io/remla23-team2/local-model-service:2.0.0
+        image: ghcr.io/remla23-team2/model-service:1.5.0
         ports:
         - containerPort: 8080
 ---
@@ -51,11 +51,11 @@ spec:
     spec:
       containers:
       - name: app
-        image: ghcr.io/remla23-team2/app:3.0.0
+        image: ghcr.io/remla23-team2/app:1.5.2
         ports:
         - containerPort: 3000
         env:
-          - name: REACT_APP_MODEL_SERVICE_URL
+          - name: REACT_APP_API_URL
             valueFrom:
               configMapKeyRef:
                 name: config
