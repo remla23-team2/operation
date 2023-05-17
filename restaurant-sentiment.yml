@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: model-service
-          image: ghcr.io/remla23-team2/model-service:1.5.8
+          image: ghcr.io/remla23-team2/model-service:1.6.0
           ports:
             - containerPort: 8080
 ---
