@@ -5,7 +5,7 @@ name: Deploy k8s cluster to Google Cloud
 on:
   push:
     branches:
-      - main
+      - gcp-publish
 
 env:
   PROJECT_ID: ${{secrets.GKE_PROJECT}}
