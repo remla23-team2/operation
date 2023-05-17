@@ -79,7 +79,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: my-ingress
-
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - http:
@@ -92,7 +93,7 @@ spec:
             port:
               number: 3000
       - pathType: Prefix
-        path: "/"
+        path: "/*"
         backend:
           service:
             name: model-service-serv
