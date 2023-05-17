@@ -10,7 +10,7 @@ on:
 env:
   PROJECT_ID: ${{secrets.GKE_PROJECT}}
   GKE_CLUSTER: gourmet-groove
-  GKE_ZONE: europe-west2
+  GKE_ZONE: us-central1-a
   DEPLOYMENT_NAME: remla23-deployment
   IMAGE: github-actions-remla23-deployment
   TAG: 1.0.0
