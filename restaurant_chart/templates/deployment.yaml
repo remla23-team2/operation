@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-service-depl
+  labels:
+    app: {{ .Values.modelService.deployment.label }}
+spec:
+  replicas: {{ .Values.modelService.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.modelService.deployment.label }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.modelService.deployment.label }}
+    spec:
+      containers:
+        - name: model-service
+          image: ghcr.io/remla23-team2/model-service:{{ .Values.modelService.version }}
+          ports:
+            - containerPort: {{ .Values.modelService.port }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-depl
+  labels:
+    app: {{ .Values.app.deployment.label }}
+spec:
+  replicas: {{ .Values.app.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.deployment.label }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.deployment.label }}
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/remla23-team2/app:{{ .Values.app.version }}
+          ports:
+            - containerPort: {{ .Values.app.port }}
+          env:
+            - name: REACT_APP_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: my-config
+                  key: model.host
+            - name: PUBLIC_URL
+              value: {{ .Values.app.path }}
