@@ -1,0 +1,21 @@
+app:
+  deployment:
+    label: app
+  service:
+    name: app-serv
+  port: 3000
+  targetPort: 3000
+  path: "/app"
+  version: 1.6.0
+  replicas: 1
+modelService:
+  deployment:
+    label: model-service
+  service:
+    name: model-service-serv
+    label: model-service-label
+  replicas: 1
+  port: 8080
+  targetPort: 8080
+  version: 1.6.0
+  path: "/"
