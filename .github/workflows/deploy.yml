@@ -64,5 +64,6 @@ jobs:
 
 
       - name: Deploy to Google Kubernetes Engine
-        run: |
+        run: |-
+          helm uninstall restaurant
           helm install restaurant ./restaurant_chart 
