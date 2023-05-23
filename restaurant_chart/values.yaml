@@ -17,5 +17,5 @@ modelService:
   replicas: 1
   port: 8080
   targetPort: 8080
-  version: 1.6.0
+  version: 1.4.5
   path: "/"
