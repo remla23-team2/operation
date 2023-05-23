@@ -22,7 +22,7 @@ spec:
           readinessProbe:
             httpGet:
               path: "/health-check"
-              port: 8000
+              port: {{ .Values.modelService.port }}
             initialDelaySeconds: 10
             timeoutSeconds: 5
 ---
@@ -50,7 +50,7 @@ spec:
           readinessProbe:
             httpGet:
               path: "/health-check"
-              port: 8000
+              port: {{ .Values.app.port }}
             initialDelaySeconds: 10
             timeoutSeconds: 5
           env:
