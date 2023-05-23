@@ -62,11 +62,6 @@ jobs:
       - name: Debug - List directory contents
         run: ls 
 
-      - name: Install prometheus
-        run: |-
-          helm repo add prometheus https://prometheus-community.github.io/helm-charts
-          helm install myprom prometheus/kube-prometheus-stack
-
       - name: Deploy to Google Kubernetes Engine
         run: |
           helm install restaurant ./restaurant_chart 
