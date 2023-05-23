@@ -64,7 +64,8 @@ jobs:
 
       - name: Install prometheus
         run: |-
-          helm install myprom prom-repo/kube-prometheus-stack
+          helm repo add prometheus https://prometheus-community.github.io/helm-charts
+          helm install myprom prometheus/kube-prometheus-stack
 
       - name: Deploy to Google Kubernetes Engine
         run: |
