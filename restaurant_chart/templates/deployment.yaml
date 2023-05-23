@@ -22,7 +22,6 @@ spec:
           readinessProbe:
             httpGet:
               path: "/health-check"
-              port: {{ .Values.modelService.port }}
             initialDelaySeconds: 10
             timeoutSeconds: 5
 ---
