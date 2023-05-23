@@ -32,3 +32,34 @@ To stop the application and shut down the containers, run:
 ```sh
 $ docker-compose down
 ```
+# Assignment 2
+
+Begin by installing the Prometheus stack using the following commands:
+
+```sh
+$ helm repo add prom-repo https://prometheus-community.github.io/helm-charts
+$ helm repo update
+$ helm install myprom prom-repo/kube-prometheus-stack
+```
+
+Apply the `restaurant-sentiment.yml` configuration with this command:
+
+```sh
+$ kubectl apply -f restaurant-sentiment.yml
+```
+
+Access the Prometheus and Grafana pages with these commands:
+
+```sh
+$ minikube service myprom-kube-prometheus-sta-prometheus --url
+$ minikube service myprom-grafana --url
+```
+
+The default username and password for Grafana are admin and prom-operator.
+
+Add the Grafana dashboard by importing the `dashboard_team2.json` file in the dashboard.
+
+After running minikube tunnel in another terminal, you can access the front end page using this link: localhost/app
+
+And you can access the metrics served to Prometheus using this link: localhost/metrics
+
