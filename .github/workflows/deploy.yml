@@ -9,7 +9,7 @@ on:
 
 env:
   PROJECT_ID: ${{secrets.GKE_PROJECT}}
-  GKE_CLUSTER: gourmet-groove
+  GKE_CLUSTER: gourmet-groove-helm
   GKE_ZONE: europe-west1
   DEPLOYMENT_NAME: remla23-deployment
   IMAGE: github-actions-remla23-deployment
@@ -61,6 +61,12 @@ jobs:
 
       - name: Debug - List directory contents
         run: ls 
+
+      - name: Install prometheus
+        run: |-
+          helm repo add prom-repo https://prometheus-community.github.io/helm-charts
+          helm repo update
+          helm install myprom prom-repo/kube-prometheus-stack
 
       - name: Deploy to Google Kubernetes Engine
         run: |
