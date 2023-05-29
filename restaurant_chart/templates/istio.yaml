@@ -1,0 +1,91 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: model-service
+spec:
+  host: {{ .Values.modelService.service.name }}
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: app
+spec:
+  host: {{ .Values.app.service.name }}
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: my-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: my-entry-service
+spec:
+  gateways:
+    - my-gateway
+  hosts:
+  - "*"
+  http:
+  - match:
+    - uri:
+        prefix: {{ .Values.app.path }}
+    route:
+    - destination:
+        host: {{ .Values.app.service.name }}
+        subset: v1
+      weight: 50
+    - destination:
+        host: {{ .Values.app.service.name }}
+        subset: v2
+      weight: 50
+  - match:
+    - uri:
+        prefix: {{ .Values.modelService.path }}
+    route:
+    - destination:
+        host: {{ .Values.modelService.service.name }}
+# ---
+# apiVersion: networking.istio.io/v1alpha3
+# kind: VirtualService
+# metadata:
+#   name: model-service
+# spec:
+#   hosts:
+#   - {{ .Values.modelService.service.name }}
+#   http:
+#   - match:
+#     - sourceLabels:
+#         version: v2
+#     route:
+#     - destination:
+#         host: {{ .Values.modelService.service.name }}
+#         subset: v2
+#   - route:
+#     - destination:
+#         host: {{ .Values.modelService.service.name }}
+#         subset: v1
