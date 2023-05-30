@@ -63,3 +63,22 @@ After running minikube tunnel in another terminal, you can access the front end 
 
 And you can access the metrics served to Prometheus using this link: localhost/metrics
 
+# Assignment 3
+
+Follow the instructions above and install Prometheus. Don't forget to start minikube.
+
+Download istio using the following intructions: https://istio.io/latest/docs/setup/install/istioctl/
+
+Install istio using the following command:
+
+```sh
+istioctl install
+```
+
+Instead of using the restaurant-sentiment.yml file, use helm to install the application:
+
+```sh
+helm install rest ./restaurant_chart 
+```
+
+Access the Prometheus and Grafana pages with the commands mentioned above.
