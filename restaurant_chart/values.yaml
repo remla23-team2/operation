@@ -17,5 +17,49 @@ modelService:
   replicas: 1
   port: 8080
   targetPort: 8080
-  version: 1.6.0
+  version: 1.4.9
   path: "/"
+
+kube-prometheus-stack:
+  prometheus:
+    prometheusSpec:
+      additionalAlertManagerConfigs:
+        - static_configs:
+          - targets: 
+            - "prom-alertmanager:9093"
+  additionalPrometheusRulesMap:
+    rule-name:
+      groups:
+        - name: ruleset_1
+          rules:
+            - alert: LowModelAccuracy
+              expr: model_accuracy < 0.5 
+              for: 1m
+              labels:
+                severity: warning
+              annotations:
+                summary: BadModel
+                description: "Very low model accuracy"
+  alertmanager:
+    config:
+      global:
+        smtp_smarthost: 'smtp.office365.com:587'
+        smtp_from: 'remla23-team02@outlook.com'
+        smtp_auth_username: 'remla23-team02@outlook.com'
+        smtp_auth_password: 'abcdefg2023'
+      route:
+        group_by: ['job']
+        group_wait: 30s
+        group_interval: 5m
+        # A kind of rate limit (for the alerts which have been resolved but are fired again)
+        repeat_interval: 12h
+        receiver: 'team-emails'
+        routes:
+        - match:
+            alertname: BadModel
+          receiver: 'team-emails'
+      receivers:
+      - name: 'team-emails'
+        email_configs:
+        - to: 'remla23-team02@outlook.com'
+          send_resolved: true
