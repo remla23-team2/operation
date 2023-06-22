@@ -8,7 +8,8 @@ spec:
   selector:
     app: {{ .Values.modelService.deployment.label }}
   ports:
-    - port: {{ .Values.modelService.port }}
+    - name: http-service
+      port: {{ .Values.modelService.port }}
       targetPort: {{ .Values.modelService.targetPort }}
 ---
 apiVersion: v1
@@ -19,5 +20,6 @@ spec:
   selector:
     app: {{ .Values.app.deployment.label }}
   ports:
-    - port: {{ .Values.app.port }}
+    - name: http-app
+      port: {{ .Values.app.port }}
       targetPort: {{ .Values.app.targetPort }}
