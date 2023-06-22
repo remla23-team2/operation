@@ -6,8 +6,11 @@ app:
   port: 3000
   targetPort: 3000
   path: "/app"
-  version: 1.6.0
+  version:
+    v1: 2.0.1
+    v2: 2.1.3
   replicas: 1
+
 modelService:
   deployment:
     label: model-service
@@ -17,5 +20,5 @@ modelService:
   replicas: 1
   port: 8080
   targetPort: 8080
-  version: 1.6.0
+  version: 2.2.0
   path: "/"
