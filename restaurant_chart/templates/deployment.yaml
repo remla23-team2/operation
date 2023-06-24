@@ -23,22 +23,58 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-depl
+  name: app-depl-v1
   labels:
     app: {{ .Values.app.deployment.label }}
+    version: v1
 spec:
   replicas: {{ .Values.app.replicas }}
   selector:
     matchLabels:
       app: {{ .Values.app.deployment.label }}
+      version: v1
   template:
     metadata:
       labels:
         app: {{ .Values.app.deployment.label }}
+        version: v1
     spec:
       containers:
         - name: app
-          image: ghcr.io/remla23-team2/app:{{ .Values.app.version }}
+          image: ghcr.io/remla23-team2/app:{{ .Values.app.version.v1 }}
+          ports:
+            - containerPort: {{ .Values.app.port }}
+          env:
+            - name: REACT_APP_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: my-config
+                  key: model.host
+            - name: PUBLIC_URL
+              value: {{ .Values.app.path }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-depl-v2
+  labels:
+    app: {{ .Values.app.deployment.label }}
+    version: v2
+spec:
+  replicas: {{ .Values.app.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.deployment.label }}
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.deployment.label }}
+        version: v2
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/remla23-team2/app:{{ .Values.app.version.v2 }}
           ports:
             - containerPort: {{ .Values.app.port }}
           env:
