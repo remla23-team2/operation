@@ -3,4 +3,5 @@ kind: ConfigMap
 metadata:
   name: my-config
 data:
-  model.host: "http://localhost"
+  model.host: http://{{.Values.modelService.service.name}}
+  gateway.host: http://localhost/modelservice

@@ -15,6 +15,13 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
+  name: gateway
+spec:
+  host: {{ .Values.gateway.service.name }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
   name: app
 spec:
   host: {{ .Values.app.service.name }}
@@ -63,9 +70,10 @@ spec:
         host: {{ .Values.app.service.name }}
         subset: v2
       weight: 20
-  - match:
-    - uri:
-        prefix: {{ .Values.modelService.path }}
-    route:
-    - destination:
-        host: {{ .Values.modelService.service.name }}
+  - match: 
+    - uri: 
+        prefix: {{ .Values.gateway.path }}
+    route: 
+      - destination: 
+          host: {{ .Values.gateway.service.name }}
+
