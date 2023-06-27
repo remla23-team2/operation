@@ -73,7 +73,7 @@ spec:
           ports:
             - containerPort: {{ .Values.app.port }}
           env:
-            - name: REACT_APP_API_URL
+            - name: API_URL
               valueFrom:
                 configMapKeyRef:
                   name: my-config
@@ -106,7 +106,7 @@ spec:
           ports:
             - containerPort: {{ .Values.app.port }}
           env:
-            - name: REACT_APP_API_URL
+            - name: API_URL
               valueFrom:
                 configMapKeyRef:
                   name: my-config

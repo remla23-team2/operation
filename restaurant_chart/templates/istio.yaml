@@ -58,6 +58,14 @@ spec:
   hosts:
   - "*"
   http:
+  - match: 
+    - uri: 
+        prefix: {{ .Values.gateway.path }}
+    rewrite: 
+      uri: " "
+    route: 
+      - destination: 
+          host: {{ .Values.gateway.service.name }}
   - match:
     - uri:
         prefix: {{ .Values.app.path }}
@@ -70,10 +78,3 @@ spec:
         host: {{ .Values.app.service.name }}
         subset: v2
       weight: 20
-  - match: 
-    - uri: 
-        prefix: {{ .Values.gateway.path }}
-    route: 
-      - destination: 
-          host: {{ .Values.gateway.service.name }}
-
