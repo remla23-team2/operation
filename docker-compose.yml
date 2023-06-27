@@ -19,6 +19,8 @@ services:
       - 3000:3000
     depends_on:
       - model-service
+    environment:
+      - API_URL=http://model-service:8080
 
 volumes:
   shared-data:
