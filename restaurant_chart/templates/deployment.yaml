@@ -23,6 +23,34 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: gateway-depl
+  labels:
+    app: {{ .Values.gateway.deployment.label }}
+spec:
+  replicas: {{ .Values.gateway.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.gateway.deployment.label }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.gateway.deployment.label }}
+    spec:
+      containers:
+        - name: gateway
+          image: ghcr.io/remla23-team2/gateway:{{ .Values.gateway.version }}
+          ports:
+            - containerPort: {{ .Values.gateway.port }}
+          env:
+            - name: MODEL_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: my-config
+                  key: model.host
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: app-depl-v1
   labels:
     app: {{ .Values.app.deployment.label }}
@@ -45,11 +73,11 @@ spec:
           ports:
             - containerPort: {{ .Values.app.port }}
           env:
-            - name: REACT_APP_API_URL
+            - name: API_URL
               valueFrom:
                 configMapKeyRef:
                   name: my-config
-                  key: model.host
+                  key: gateway.host
             - name: PUBLIC_URL
               value: {{ .Values.app.path }}
 ---
@@ -78,10 +106,10 @@ spec:
           ports:
             - containerPort: {{ .Values.app.port }}
           env:
-            - name: REACT_APP_API_URL
+            - name: API_URL
               valueFrom:
                 configMapKeyRef:
                   name: my-config
-                  key: model.host
+                  key: gateway.host
             - name: PUBLIC_URL
               value: {{ .Values.app.path }}
