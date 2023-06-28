@@ -4,4 +4,4 @@ metadata:
   name: my-config
 data:
   model.host: http://{{.Values.modelService.service.name}}
-  gateway.host: http://localhost/api
+  gateway.host: http://{{.Values.gateway.service.name}}:3000

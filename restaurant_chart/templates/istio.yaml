@@ -58,14 +58,6 @@ spec:
   hosts:
   - "*"
   http:
-  - match: 
-    - uri: 
-        prefix: {{ .Values.gateway.path }}
-    rewrite: 
-      uri: " "
-    route: 
-      - destination: 
-          host: {{ .Values.gateway.service.name }}
   - match:
     - uri:
         prefix: {{ .Values.app.path }}
