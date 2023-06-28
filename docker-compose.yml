@@ -1,6 +1,6 @@
 services:
   model-service:
-    image: ghcr.io/remla23-team2/model-service:1.2.0
+    image: ghcr.io/remla23-team2/model-service:2.2.0
     volumes:
       - shared-data:/root/data
       - shared-code:/root/src
@@ -14,13 +14,19 @@ services:
       - shared-data:/root/data
       - shared-code:/root/src
   app:
-    image: ghcr.io/remla23-team2/app:1.2.0
+    image: ghcr.io/remla23-team2/app:3.4.5
     ports:
-      - 3000:3000
+      - 3000:80
+    depends_on:
+      - gateway
+    environment:
+      - API_URL=http://gateway:3000
+  gateway:
+    image: ghcr.io/remla23-team2/gateway:1.1.0
     depends_on:
       - model-service
     environment:
-      - API_URL=http://model-service:8080
+      - MODEL_SERVICE_URL=http://model-service:8080
 
 volumes:
   shared-data:
