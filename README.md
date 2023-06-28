@@ -1,4 +1,28 @@
-# Docker Compose Quickstart
+# Operation
+Contains all deployment files for Docker Compose, Kubernetes &amp; Helm.
+
+## Setup
+Follow the instructions below to setup the project on your local machine.
+
+### Prerequisites
+Have Docker, Docker Compose, Kubernetes ans Helm installed.
+
+### Clone
+Clone the operation repository for the latest version by running the following command:
+```bash
+$ git clone https://github.com/remla23-team2/operation.git
+```
+
+### Different ways to run the application:
+Below are the different ways to run the application. The application can be run using Docker Compose, Kubernetes or Kubernetes with istio. Move to the corresponding folder, in this case the operation folder.
+
+1. [Docker Compose](#docker-compose) (assignment 1)
+2. [Kubernetes](#kubernetes) (assignment 2)
+3. [Helm](#helm) (assignment 2)
+4. [Kubernetes + istio](#istio) (assignment 3)
+
+#Assignment 1
+## Docker Compose Quickstart
 
 This repository contains a `docker-compose.yml` file that can be used to quickly launch a containerized application.
 
@@ -57,15 +81,13 @@ $ minikube service myprom-grafana --url
 
 The default username and password for Grafana are admin and prom-operator.
 
-Add the Grafana dashboard by importing the `dashboard_team2.json` file in the dashboard.
-
 After running minikube tunnel in another terminal, you can access the front end page using this link: localhost/app
 
 And you can access the metrics served to Prometheus using this link: localhost/metrics
 
 # Assignment 3
 
-Follow the instructions above and install Prometheus. Don't forget to start minikube.
+ Begin by starting minikube and minikube tunnel.
 
 Download istio using the following intructions: https://istio.io/latest/docs/setup/install/istioctl/
 
@@ -81,4 +103,9 @@ Instead of using the restaurant-sentiment.yml file, use helm to install the appl
 helm install rest ./restaurant_chart 
 ```
 
-Access the Prometheus and Grafana pages with the commands mentioned above.
+
+## Grafana
+
+Add the Grafana dashboard by importing the `dashboard_team2.json` file in the dashboard.
+
+In Grafana import the dashboard by clicking on the plus sign on the left side of the screen.
