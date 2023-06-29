@@ -18,8 +18,7 @@ Below are the different ways to run the application. The application can be run 
 
 1. [Docker Compose](#docker-compose) (assignment 1)
 2. [Kubernetes](#kubernetes) (assignment 2)
-3. [Helm](#helm) (assignment 2)
-4. [Kubernetes + istio](#istio) (assignment 3)
+3. [Kubernetes + istio + Helm](#istio) (assignment 3)
 
 #Assignment 1
 ## Docker Compose Quickstart
@@ -103,9 +102,21 @@ Instead of using the restaurant-sentiment.yml file, use helm to install the appl
 helm install rest ./restaurant_chart 
 ```
 
+Access the Prometheus and Grafana pages with these commands:
+
+```sh
+$ minikube service rest-kube-prometheus-sta-prometheus --url
+$ minikube service rest-grafana --url
+```
+
+The default username and password for Grafana are admin and prom-operator.
+
+After running minikube tunnel in another terminal, you can access the front end page using this link: localhost/app
+
+And you can access the metrics served to Prometheus using this link: localhost/metrics
 
 ## Grafana
 
-Add the Grafana dashboard by importing the `dashboard_team2.json` file in the dashboard.
+Add the Grafana dashboard by importing the `dashboard_team2.json` file in the dashboard folder inside resturant_chart folder.
 
 In Grafana import the dashboard by clicking on the plus sign on the left side of the screen.
