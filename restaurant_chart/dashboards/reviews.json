@@ -18,7 +18,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 29,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -171,14 +170,14 @@
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
-            "fillOpacity": 80,
+            "fillOpacity": 53,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineWidth": 1,
+            "lineWidth": 5,
             "scaleDistribution": {
               "type": "linear"
             },
@@ -211,10 +210,10 @@
       },
       "id": 1,
       "options": {
-        "barRadius": 0,
-        "barWidth": 0.97,
+        "barRadius": 0.15,
+        "barWidth": 0.81,
         "fullHighlight": false,
-        "groupWidth": 0.7,
+        "groupWidth": 0.86,
         "legend": {
           "calcs": [],
           "displayMode": "list",
@@ -246,6 +245,18 @@
       ],
       "title": "Feedback difference per day",
       "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "mode": "reduceRow",
+            "reduce": {
+              "include": [
+                "0.0"
+              ],
+              "reducer": "sum"
+            }
+          }
+        },
         {
           "id": "calculateField",
           "options": {
@@ -335,35 +346,27 @@
                 "Difference 3",
                 "Difference 4",
                 "Difference 5",
-                "Difference 6"
+                "Difference 6",
+                "0.0"
               ]
-            }
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "mode": "reduceRow",
-            "reduce": {
-              "include": [
-                "Difference"
-              ],
-              "reducer": "diff"
             }
           }
         },
         {
           "id": "organize",
           "options": {
-            "excludeByName": {},
+            "excludeByName": {
+              "Difference 7": false
+            },
             "indexByName": {},
             "renameByName": {
-              "Difference": "Monday",
-              "Difference 2": "Tuesday ",
-              "Difference 3": "Wednesday",
-              "Difference 4": "Thursday",
-              "Difference 5": "Friday",
-              "Difference 6": "Saturday",
+              "0.0": "Monday",
+              "Difference": "Tuesday",
+              "Difference 2": "Wednesday ",
+              "Difference 3": "Thursday",
+              "Difference 4": "Friday",
+              "Difference 5": "Saturday",
+              "Difference 6": "Sunday",
               "Difference 7": "Sunday",
               "Time": "Day"
             }
@@ -585,6 +588,6 @@
   "timezone": "",
   "title": "dashboard-remlateam2",
   "uid": "d0ce889f-7a5f-4bfe-8e9f-1c3f2f21b657",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }
