@@ -7,7 +7,7 @@ app:
   targetPort: 80
   path: "/"
   version:
-    v1: 3.2.3
+    v1: 6.6.6
     v2: 3.4.5
   replicas: 1
 
@@ -78,3 +78,7 @@ kube-prometheus-stack:
         email_configs:
         - to: 'remla23-team02@outlook.com'
           send_resolved: true
+  grafana:
+    env:
+      GF_SERVER_ROOT_URL: https://localhost:3000/grafana
+      GF_SERVER_SERVE_FROM_SUB_PATH: 'true'
