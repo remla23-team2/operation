@@ -117,6 +117,6 @@ And you can access the metrics served to Prometheus using this link: localhost/m
 
 ## Grafana
 
-Add the Grafana dashboard by importing the `dashboard_team2.json` file in the dashboard folder inside resturant_chart folder.
+1. Add the Grafana dashboard by importing the `dashboard_team2.json` file in the dashboard folder inside resturant_chart folder. In Grafana import the dashboard by clicking on the plus sign on the left side of the screen.
 
-In Grafana import the dashboard by clicking on the plus sign on the left side of the screen.
+2. Access the link : localhost/grafana/ to see the dashboard. In dashboards, select the dashboard named "dashboard-remlateam2". 

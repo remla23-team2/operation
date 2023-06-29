@@ -4,3 +4,13 @@ metadata:
   name: my-config
 data:
   model.host: "http://localhost"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    grafana_dashboard: "1"
+  name: grafana-dashboard
+data:
+  grafana-dashboard.json: {{ .Files.Get "dashboard/dashboard-remlateam2.json" | toJson }}
