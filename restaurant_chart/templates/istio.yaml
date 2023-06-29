@@ -58,6 +58,16 @@ spec:
   hosts:
   - "*"
   http:
+  - match: 
+    - uri:
+        prefix: /grafana/
+    rewrite: 
+      uri: "/"
+    route:
+    - destination:
+        host: rest-grafana
+        port:
+          number: 80
   - match:
     - uri:
         prefix: {{ .Values.app.path }}

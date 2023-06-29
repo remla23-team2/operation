@@ -27,9 +27,9 @@ spec:
             value:
               stat_prefix: http_local_rate_limiter
               token_bucket:
-                max_tokens: 50
-                tokens_per_fill: 10
-                fill_interval: 120s
+                max_tokens: 100
+                tokens_per_fill: 20
+                fill_interval: 30s
               filter_enabled:
                 runtime_key: local_rate_limit_enabled
                 default_value:
@@ -47,3 +47,29 @@ spec:
                     value: TOO_MANY_REQUESTS
               status:
                 code: BadRequest
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: bypass-grafana-filter
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+  configPatches:
+    - applyTo: HTTP_ROUTE
+      match:
+        context: GATEWAY
+        routeConfiguration:
+          vhost:
+            route:
+              name: /grafana/
+      patch:
+        operation: MERGE
+        value:
+          name: envoy.ext_authz_disabled
+          typed_per_filter_config:
+            envoy.ext_authz:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
+              disabled: true
