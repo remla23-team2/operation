@@ -5,3 +5,12 @@ metadata:
 data:
   model.host: http://{{.Values.modelService.service.name}}
   gateway.host: http://{{.Values.gateway.service.name}}:3000
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    grafana_dashboard: "1"
+  name: grafana-dashboard
+data:
+  grafana-dashboard.json: {{ .Files.Get "dashboards/reviews.json" | toJson }}
